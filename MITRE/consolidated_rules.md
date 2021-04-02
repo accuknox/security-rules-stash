@@ -22,7 +22,7 @@ Send an alert if process `cron` is invoked. These processes operate at host leve
 
 Send an alert if file access is done to any of the following files:
 ```
-/etc/cronttab
+/etc/crontab
 ```
 
 ## [./Execution/Scheduled Task_Job/At/README.md](./Execution/Scheduled%20Task_Job/At/README.md)
@@ -39,7 +39,7 @@ Send an alert if processes (cron | at) are invoked. These processes operate at h
 
 Send an alert if file access is done to any of the following files:
 ```
-/etc/cronttab
+/etc/crontab
 /etc/at.allow
 /etc/at.deny
 ```
@@ -48,6 +48,18 @@ Send an alert if file access is done to any of the following files:
 Send an alert if file access is done to any of the following files:
 ```
 /lib/systemd/system/*.timer
+```
+These might include but not limited to:
+```
+/lib/systemd/system/apt-daily.timer
+/lib/systemd/system/apt-daily-upgrade.timer
+/lib/systemd/system/e2scrub_all.timer
+/lib/systemd/system/fstrim.timer
+/lib/systemd/system/logrotate.timer
+/lib/systemd/system/man-db.timer
+/lib/systemd/system/sysstat-collect.timer
+/lib/systemd/system/sysstat-summary.timer
+/lib/systemd/system/systemd-tmpfiles-clean.timer
 ```
 
 ## [./Execution/Command and Scripting Interpreter/Unix Shell/README.md](./Execution/Command%20and%20Scripting%20Interpreter/Unix%20Shell/README.md)
@@ -78,12 +90,17 @@ Exclusions should be made for docker, k8s processess (such as kube-proxy) who de
 Audit file changes to `./bash_history` from non-bash parent process. This will
 filter the processes which try to directly open the bash_history file.
 
+In case of other shell (take example of OhMyZsh shell)
+In that case: Audit file changes to `./zsh_history` from non-bash parent process.
+
 ## [./Defense Evasion/File and Directory Permissions Modification/Linux and Mac File and Directory Permissions Modification/README.md](./Defense%20Evasion/File%20and%20Directory%20Permissions%20Modification/Linux%20and%20Mac%20File%20and%20Directory%20Permissions%20Modification/README.md)
 Audit following processes `chown, chmod`.
 
 ## [./Defense Evasion/Masquerading/Rename System Utilities/README.md](./Defense%20Evasion/Masquerading/Rename%20System%20Utilities/README.md)
 Audit file copy events for `/usr/bin`, `/bin` folders.
 Audit file rename events for `/usr/bin`, `/bin` folders.
+Audit file copy events for `/usr/local/bin` folders.
+Audit file rename events for `/usr/local/bin` folders.
 
 ## [./Defense Evasion/Modify Authentication Process/Pluggable Authentication Modules/README.md](./Defense%20Evasion/Modify%20Authentication%20Process/Pluggable%20Authentication%20Modules/README.md)
 Monitor PAM configuration and module paths `/etc/pam.d/, pam_unix.so, /etc/passwd, /etc/shadow` for changes.
@@ -122,9 +139,9 @@ Check if sensitive configuration data or user's data stores are ended up in publ
 Accuknox data-protection policies can audit/track sensitive data in the k8s env.
 
 ## [./Collection/Archive Collected Data/Archive via Utility/README.md](./Collection/Archive%20Collected%20Data/Archive%20via%20Utility/README.md)
-1. Check if any of the following external utilities are been used to compress file or data `bzip2, tar, zip`
+1. Check if any of the following external utilities are been used to compress file or data `bzip2, tar, zip, json.gz`
 
-1. Enforce copy-protection for executables `bzip2, tar, zip`. If anyone attempts to copy these files to a different name then block the copy attempt.
+1. Enforce copy-protection for executables `bzip2, tar, zip, json.gz`. If anyone attempts to copy these files to a different name then block the copy attempt.
 
 ## [./Collection/Archive Collected Data/Archive via Library/README.md](./Collection/Archive%20Collected%20Data/Archive%20via%20Library/README.md)
 Audit if the invoked process which is not part of standard bins (bzip2, zip,
@@ -181,6 +198,7 @@ Audit use of following processes:
 ```
 useradd
 adduser
+usermod
 ```
 
 ## [./Persistence/Traffic Signaling/Port Knocking/README.md](./Persistence/Traffic%20Signaling/Port%20Knocking/README.md)
