@@ -1,0 +1,30 @@
+apiVersion: security.accuknox.com/v1
+kind: KubeArmorPolicy
+metadata:
+  name: mitre-tactic-data-destruction
+  namespace: <namespace>
+spec:
+  severity: 8
+  message: "data destruction alert"
+  selector:
+    matchLabels:
+      <key>: <value>
+  process:
+   matchPaths:
+   - path: /bin/rm
+     onDirectory: 
+     - path: /bin/
+     - path: /usr/bin/
+     - path: /usr/sbin/
+   matchPaths:
+   - path: /bin/rmdir
+     onDirectory: 
+     - path: /bin/
+     - path: /usr/bin/
+     - path: /usr/sbin/
+   matchPaths:
+   - path: /usr/bin/dd
+     onDirectory:
+     - path: *
+  action:
+    Block
