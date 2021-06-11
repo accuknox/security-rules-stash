@@ -8,8 +8,10 @@ spec:
           hostname: xyz
   process: 
         matchPaths: 
-        - path: ~/etc/cronttab 
-        - path: /usr/bin/crontab       
+        - path: /etc/cronttab 
+        - path: /usr/bin/crontab
+        - path: /etc/cron.allow
+        - path: /etc/cron.deny       
   action:
     Notice
   severity: 2 
