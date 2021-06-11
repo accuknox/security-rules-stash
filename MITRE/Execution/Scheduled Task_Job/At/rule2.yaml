@@ -8,13 +8,8 @@ spec:
           hostname: xyz
   process: 
         matchPaths: 
-        - path: /etc/at.allow
-          onDirectory: 
-          - path: /usr/bin/crontab
-        matchPaths: 
-        - path: /etc/at.deny
-          onDirectory: 
-          - path: /usr/bin/crontab         
+        - path: /usr/lib/cron/at.allow
+        - path: /usr/lib/cron/at.deny
   action:
     Notice
   severity: 2 
