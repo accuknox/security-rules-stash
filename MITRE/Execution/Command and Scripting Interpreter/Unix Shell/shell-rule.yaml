@@ -1,0 +1,21 @@
+apiVersion: security.accuknox.com/v1
+kind: KubeArmorPolicy
+metadata:
+  name: mitre-tactic-execution
+spec:
+  process: 
+    condition: >
+      spawned_process 
+      and container
+      and shell_procs 
+      and proc.tty != 0
+      and container_entrypoint
+    output: >
+      A shell was spawned in a container with an attached terminal 
+      (user=%user.name %container.info shell=%proc.name parent=%proc.pname
+      cmdline=%proc.cmdline terminal=%proc.tty container_id=%container.id     
+      image=%container.image.repository)
+  priority: DEBUG
+  action:
+    Block
+  severity: 4
