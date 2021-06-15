@@ -11,5 +11,5 @@ spec:
         - path: /usr/lib/cron/at.allow
         - path: /usr/lib/cron/at.deny
   action:
-    Notice
+    Audit
   severity: 2 
