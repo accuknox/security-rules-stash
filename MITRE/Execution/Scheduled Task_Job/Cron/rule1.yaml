@@ -12,5 +12,5 @@ spec:
         condition:
         - process: "crontab"        
   action:
-    Notice
+    Audit
   severity: 2
