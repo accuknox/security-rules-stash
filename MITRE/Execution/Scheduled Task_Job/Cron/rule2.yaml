@@ -13,5 +13,5 @@ spec:
         - path: /etc/cron.allow
         - path: /etc/cron.deny       
   action:
-    Notice
+    Audit
   severity: 2 
