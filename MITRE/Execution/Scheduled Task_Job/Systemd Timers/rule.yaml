@@ -1,0 +1,16 @@
+apiVersion: security.accuknox.com/v1
+kind: KubeArmorPolicy
+metadata:
+  name: mitre-tactic-systemd-timers
+spec:
+  selectorLabels:
+      nodeSelector:
+          hostname: xyz
+  process: 
+        matchPaths: 
+        - path: /lib/systemd/system/*.timer
+        onDirectory: 
+        - path: /usr
+  action:
+    Audit
+  severity: 2 
