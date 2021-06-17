@@ -1,7 +1,7 @@
 apiVersion: security.accuknox.com/v1
 kind: KubeArmorPolicy
 metadata:
-  name: mitre-tactic-scheduled-tak-job
+  name: mitre-tactic-scheduled-task-job
 spec:
   selectorLabels:
       nodeSelector:
