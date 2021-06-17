@@ -1,0 +1,21 @@
+apiVersion: security.accuknox.com/v1
+kind: KubeArmorPolicy
+metadata:
+  name: mitre-tactic-privilege-escalation
+spec:
+  selectorLabels:
+      nodeSelector:
+          hostname: xyz
+  syscall:
+    matchPaths: 
+    - path: /sys/stat.h
+    matchName:
+    - name: syscall
+    - parameter: chmod , fchmod
+    condition:
+    - proc.name: chmod 
+    - proc.args: +s
+    - proc.args: 4777       
+  action:
+    Enforce
+  severity: 5
