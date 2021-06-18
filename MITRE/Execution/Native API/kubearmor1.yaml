@@ -14,5 +14,5 @@ spec:
     - syscall.type: write
     - syscall.type: read
   action:
-    Audit
+    BlockwithAudit
   severity: 5
