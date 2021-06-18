@@ -1,0 +1,19 @@
+apiVersion: security.accuknox.com/v1
+kind: KubeArmorPolicy
+metadata:
+  name: mitre-tactic-defense-evasion-PAM-audit
+spec:
+  selectorLabels:
+      nodeSelector:
+          hostname: xyz
+  process: 
+        matchPaths: 
+        - path: /etc/pam.d/
+        - path: /usr/lib/x86_64-linux-gnu/security/pam_unix.so
+        - path: /snap/core18/1988/lib/x86_64-linux-gnu/security/pam_unix.so
+        - path: /snap/core18/2066/lib/x86_64-linux-gnu/security/pam_unix.so
+        - path: /etc/passwd
+        - path: /etc/shadow
+  action:
+    Audit
+  severity: 3
