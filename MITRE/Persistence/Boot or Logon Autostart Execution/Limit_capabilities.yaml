@@ -1,0 +1,19 @@
+kind: KubeArmorPolicy
+apiVersion: security.accuknox.com/v1
+metadata:
+  name: mitre-tactic-persistence
+  namespace: <namespace>
+spec:
+  selectorLabels:
+      nodeSelector:
+          hostname: xyz
+  containers:
+  - name: abc
+    image: qaz
+    
+          capabilities:
+            drop:
+              - all
+            add:
+              - CHOWN
+          severity: 5

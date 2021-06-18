@@ -1,0 +1,12 @@
+apiVersion: security.accuknox.com/v1
+kind: KubeArmorPolicy
+metadata:
+  name: mitre-tactic-persistence
+spec:
+  volumes:
+    - name: <name>
+      hostPath:
+        path: /var/run/docker.sock
+  severity: 6
+  action:
+    Audit 

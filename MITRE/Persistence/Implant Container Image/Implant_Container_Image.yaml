@@ -1,0 +1,16 @@
+apiVersion: security.accuknox.com/v1
+kind: KubeArmorPolicy
+metadata:
+  name: mitre-tactic-persistence
+  namespace: <namespace>
+spec:
+  message: "check for docker content trust"
+  selectorLabels:
+      nodeSelector:
+          hostname: xyz
+  capabilities:
+    matchCapabilities:
+    - capability: DOCKER_CONTENT_TRUST=0 
+  action:
+    Audit
+  severity: 5
