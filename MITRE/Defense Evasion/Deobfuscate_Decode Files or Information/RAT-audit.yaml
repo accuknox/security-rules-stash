@@ -1,0 +1,14 @@
+apiVersion: security.accuknox.com/v1
+kind: KubeArmorPolicy
+metadata:
+  name: mitre-tactic-defense-evasion-RAT-decode
+spec:
+  selectorLabels:
+      nodeSelector:
+          hostname: xyz
+  process:
+    matchPaths:
+    - path: /usr/bin/certutil
+  severity: 5
+  action:
+    Audit
