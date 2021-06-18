@@ -17,5 +17,5 @@ spec:
     - proc.args: +s
     - proc.args: 4777       
   action:
-    Enforce
+    BlockwithAudit
   severity: 5
