@@ -11,11 +11,11 @@ spec:
     - path: /sys/stat.h
     matchName:
     - name: syscall
-    - parameter: chmod , fchmod
+    - parameter: chmod, fchmod
     condition:
     - proc.name: chmod 
     - proc.args: +s
     - proc.args: 4777       
   action:
-    BlockwithAudit
+    Audit
   severity: 5
