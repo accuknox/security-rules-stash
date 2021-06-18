@@ -1,0 +1,17 @@
+apiVersion: security.accuknox.com/v1
+kind: KubeArmorPolicy
+metadata:
+  name: mitre-defense-evasion-file-manipulation
+spec:
+  selectorLabels:
+     nodeSelector:
+           hostname: xyz 
+  syscall:
+    matchPaths: 
+    - path: /usr/bin
+    matchName:
+    - name: syscall
+    - parameter: chown, chmod     
+  action:
+    Audit
+  severity: 5
