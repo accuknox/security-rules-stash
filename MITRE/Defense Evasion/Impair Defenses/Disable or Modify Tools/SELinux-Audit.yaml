@@ -1,0 +1,23 @@
+apiVersion: security.accuknox.com/v1
+kind: KubeArmorPolicy
+metadata:
+  name: mitre-tactic-defense-evasion-SELinux-Audit
+spec:
+  selectorLabels:
+      nodeSelector:
+          hostname: xyz
+  process: 
+        matchPaths: 
+        - path: /etc/selinux/*  #The following two commands will audit any actions on these two paths
+        - path: /etc/sysconfig/selinux
+        matchPaths: 
+        - path: /etc/selinux/*
+          onDirectory: 
+          - path: ~/.setenforce   #This commmand will conduct an audit if setenforce is executed in these two file paths.
+        matchPaths: 
+        - path: /etc/sysconfig/selinux
+          onDirectory: 
+          - path: ~/.setenforce 
+  action:
+    Audit
+  severity: 3
