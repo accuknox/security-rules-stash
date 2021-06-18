@@ -1,0 +1,22 @@
+apiVersion: security.accuknox.com/v1
+kind: KubeArmorPolicy
+metadata:
+  name: mitre-tactic-defense-evasion-rename
+spec:
+  selectorLabels:
+      nodeSelector:
+          hostname: xyz
+  process: 
+        matchPaths: 
+        - path: /usr/bin/cp
+          onDirectory: 
+          - path: /usr/bin
+          - path: /bin
+        matchPaths: 
+        - path: /usr/bin/mv
+          onDirectory: 
+          - path: /usr/bin
+          - path: /bin 
+  action:
+    Audit
+  severity: 5 
