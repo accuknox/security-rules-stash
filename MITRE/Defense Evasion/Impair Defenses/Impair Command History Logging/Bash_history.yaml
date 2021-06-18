@@ -1,0 +1,15 @@
+apiVersion: security.accuknox.com/v1
+kind: KubeArmorPolicy
+metadata:
+  name: mitre-tactic-defense-evasion-Bash_History
+spec:
+  runAsNonRoot: true
+  selectorLabels:
+      nodeSelector:
+          hostname: xyz
+  process: 
+          matchPaths: 
+          - path: ~/.bash_history
+  action:
+    Audit
+  severity: 3
