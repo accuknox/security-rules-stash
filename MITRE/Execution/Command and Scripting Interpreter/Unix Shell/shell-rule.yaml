@@ -3,19 +3,15 @@ kind: KubeArmorPolicy
 metadata:
   name: mitre-tactic-execution
 spec:
+  selectorLabels:
+      nodeSelector:
+          hostname: xyz
   process: 
-    condition: >
-      spawned_process 
-      and container
-      and shell_procs 
-      and proc.tty != 0
-      and container_entrypoint
-    output: >
-      A shell was spawned in a container with an attached terminal 
-      (user=%user.name %container.info shell=%proc.name parent=%proc.pname
-      cmdline=%proc.cmdline terminal=%proc.tty container_id=%container.id     
-      image=%container.image.repository)
-  priority: DEBUG
+        matchPaths: 
+        - path: /bin/pwd
+        - path: /bin/bash
+        - path: /bin/sh
+        - path: /etc/init.d      #Some install scripts such as CHAOS make use of the file.
   action:
-    Block
+    BlockwithAudit
   severity: 4
