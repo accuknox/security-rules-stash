@@ -1,0 +1,18 @@
+apiVersion: security.accuknox.com/v1
+kind: KubeArmorPolicy
+metadata:
+  name: mitre-tactic-sudo-caching
+spec:
+  selectorLabels:
+      nodeSelector:
+          hostname: xyz
+  process:
+        matchPaths: 
+        - path: /var/db/sudo
+        - path: /etc/sudoers
+        condition : >
+          tty_tickets = False
+          timestamp_timeout = False   
+  action:
+    BlockwithAudit
+  severity: 5
