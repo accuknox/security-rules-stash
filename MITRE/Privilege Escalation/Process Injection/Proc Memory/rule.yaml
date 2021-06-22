@@ -1,0 +1,39 @@
+apiVersion: security.accuknox.com/v1
+kind: KubeArmorPolicy
+metadata:
+  name: mitre-tactic-proc-memory
+spec:
+  selectorLabels:
+      nodeSelector:
+          hostname: xyz
+  process:
+        matchPaths: 
+        - path: /proc/${PID}/maps
+        - path: /proc/${PID}/mem
+        
+  tasks:
+    - name: Get running processes list from remote host that uses file/dir /proc
+      ignore_errors: yes
+      shell: "ps -few | grep '/proc/${PID}/maps|/proc/${PID}/mem' | awk '{print $2}'"
+      register: running_processes
+
+    - name: Kill running processes
+      ignore_errors: yes
+      shell: "kill {{ item }}"
+      with_items: "{{ running_processes.stdout_lines }}"
+
+    - wait_for:
+        path: "/proc/{{ item }}/status"
+        state: absent
+      with_items: "{{ running_processes.stdout_lines }}"
+      ignore_errors: yes
+      register: proc_write_process
+ 
+    - name: Force kill stuck processes
+      ignore_errors: yes
+      shell: "kill -9 {{ item }}"
+      with_items: "{{ proc_write_process.results | select('failed') | map(attribute='item') | list }}"
+
+  action:
+    EnforcewithAudit
+  severity: 4

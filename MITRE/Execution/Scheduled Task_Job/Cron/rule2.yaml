@@ -1,0 +1,17 @@
+apiVersion: security.accuknox.com/v1
+kind: KubeArmorPolicy
+metadata:
+  name: mitre-tactic-scheduled-task-job
+spec:
+  selectorLabels:
+      nodeSelector:
+          hostname: xyz
+  process: 
+        matchPaths: 
+        - path: /etc/cronttab 
+        - path: /usr/bin/crontab
+        - path: /etc/cron.allow
+        - path: /etc/cron.deny       
+  action:
+    Audit
+  severity: 2 

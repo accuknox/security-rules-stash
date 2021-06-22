@@ -1,0 +1,38 @@
+apiVersion: security.accuknox.com/v1
+kind: KubeArmorPolicy
+metadata:
+  name: mitre-tactic-ptrace-syscall
+spec:
+  selectorLabels:
+      nodeSelector:
+          hostname: xyz
+  process:
+        matchPaths: 
+        - path: /proc/sys/kernel/yama/ptrace_scope 
+        - path: /etc/sysctl.d/10-ptrace.conf      
+  tasks:
+    - name: Get running processes list from remote host that uses the above mentioned path
+      ignore_errors: yes
+      shell: "ps -few | grep '/proc/sys/kernel/yama/ptrace_scope|/etc/sysctl.d/10-ptrace.conf' | awk '{print $2}'"
+      register: running_processes
+
+    - name: Kill running processes
+      ignore_errors: yes
+      shell: "kill {{ item }}"
+      with_items: "{{ running_processes.stdout_lines }}"
+
+    - wait_for:
+        path: "/proc/{{ item }}/status"
+        state: absent
+      with_items: "{{ running_processes.stdout_lines }}"
+      ignore_errors: yes
+      register: ptrace_process
+ 
+    - name: Force kill stuck processes
+      ignore_errors: yes
+      shell: "kill -9 {{ item }}"
+      with_items: "{{ ptrace_process.results | select('failed') | map(attribute='item') | list }}"
+
+  action:
+    EnforcewithAudit
+  severity: 4
