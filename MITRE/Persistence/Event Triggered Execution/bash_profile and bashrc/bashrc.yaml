@@ -1,0 +1,20 @@
+apiVersion: security.accuknox.com/v1
+kind: KubeArmorPolicy
+metadata:
+  name: mitre-tactic-persistence
+spec:
+  selectorLabels:
+      nodeSelector:
+          hostname: xyz
+  process: 
+        matchPaths: 
+        - path: /bin/grep
+          onDirectory: 
+          - path: ~/.bashrc
+        matchPaths: 
+        - path: /bin/cat
+          onDirectory: 
+          - path: ~/.bashrc  
+  action:
+    Block
+  severity: 5 

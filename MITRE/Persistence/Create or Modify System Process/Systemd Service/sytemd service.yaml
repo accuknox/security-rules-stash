@@ -1,0 +1,16 @@
+apiVersion: security.accuknox.com/v1
+kind: KubeArmorPolicy
+metadata:
+  name: mitre-tactic-persistence
+spec:
+  selectorLabels:
+      nodeSelector:
+          hostname: xyz
+  process: 
+        matchPaths: 
+        - path: /etc/systemd/system
+        - path: /usr/lib/systemd/system
+        - path: /usr/sbin/service 
+  action:
+    Audit & Block
+  severity: 5 
