@@ -1,0 +1,16 @@
+apiVersion: security.accuknox.com/v1
+kind: KubeArmorPolicy
+metadata:
+  name: mitre-tactic-defense-evasion-system-log
+spec:
+  severity: 5
+  selectorLabels:
+      nodeSelector:
+          hostname: xyz
+  file:
+    matchDirectories:
+    - dir: /var/log/
+      recursive: true
+      readOnly: true
+  action:
+    Audit
