@@ -1,0 +1,34 @@
+apiVersion: security.accuknox.com/v1
+kind: KubeArmorPolicy
+metadata:
+  name: "tofqdn-dns-visibility"
+spec:
+  selectorLabels:
+   nodeSelector:
+    hostname: xyz
+
+  file:
+       matchPaths:
+        - path: /var/log    //Syslog daemon which listens on  domain sockets on linux
+        - path: /var/log/auth.log    //File-based logging, a typical example being on linux
+        - path: /etc/resolv.conf     //      
+       dns:
+            - matchName: "example.com"
+            - matchPattern: "*.example.com"
+            - matchPattern: "*.api.example.com"
+            - toFQDNs:
+              - matchName: "example.com"
+              - matchName: "sub.example.com"
+              - matchName: "service1.api.example.com"
+              - matchPattern: "special*service.api.example.com"
+       toPorts:
+           - ports:
+           - port: "80"
+             protocol: TCP
+           - ports:
+           - port: "53"
+             protocol: ANY
+        
+  action:
+      Audit  
+  severity: 3                              
