@@ -1,0 +1,22 @@
+---
+apiVersion: security.accuknox.com/v1
+kind: KubeArmorPolicy
+metadata:
+  name: mitre-tactic-defense-evasion-hide-artifacts
+spec:
+  selectorLabels:
+    nodeSelector:
+      hostname: xyz
+  process:
+    matchPaths:
+      - path: /usr/bin/mv
+      - path: /usr/bin/mkdir
+  files:
+    matchDirectories:
+      - dir: /tmp
+      - dir: /var/tmp
+      - dir: /dev/shm
+    matchPatterns:
+      - pattern: /\.[a-zA-Z0-9_\-][a-zA-Z0-9_\-\.]{1,254}/
+  action: Audit
+  severity: 2
