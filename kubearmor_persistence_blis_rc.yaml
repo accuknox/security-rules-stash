@@ -1,0 +1,20 @@
+apiVersion: security.accuknox.com/v1
+kind: KubeArmorPolicy
+metadata:
+  name: mitre-persistence-blis-RC
+spec:
+  selectorLabels:
+    nodeSelector:
+      hostname: xyz
+  process:
+    matchPaths:
+      - path: /etc/rc.local
+      - path: /lib/systemd/system/rc-local.service
+      - path: /lib/systemd/system/rc-local.service.d
+      - path: /lib/systemd/system/rc.service
+      - path: /usr/lib/systemd/system/rc-local.service
+      - path: /usr/lib/systemd/system/rc-local.service.d
+      - path: /usr/lib/systemd/system/rc.service
+  action:
+    Block
+  severity: 5
