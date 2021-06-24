@@ -1,0 +1,23 @@
+apiVersion: security.accuknox.com/v1
+kind: KubeArmorPolicy
+metadata:
+  name: mitre-tactic-defence-evasion-port-knocking
+spec:
+  selectorLabels:
+      nodeSelector:
+          hostname: xyz
+  file:
+    matchPaths: 
+    - path: /usr/sbin/iptables
+    - path: /etc/knockd.conf
+    condition:
+    - proc.name: iptables 
+    - proc.args: -a
+    - proc.args: -m 
+    - proc.args: -s 
+    - proc.args: -p
+    - proc.args: -dport
+    - proc.args: -j      
+  action:
+    Audit
+  severity: 4
