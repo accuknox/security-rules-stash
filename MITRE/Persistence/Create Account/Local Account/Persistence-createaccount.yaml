@@ -1,0 +1,14 @@
+kind: KubeArmorPolicy
+metadata:
+  name: mitre-tactic-persistence-createaccount-localaccount
+spec:
+  selectorLabels:
+      nodeSelector:
+          hostname: xyz
+  process: 
+        matchPaths: 
+        - path: /usr/sbin/useradd
+        - path: /usr/sbin/adduser.conf
+  action:
+    Audit
+  severity: 2
