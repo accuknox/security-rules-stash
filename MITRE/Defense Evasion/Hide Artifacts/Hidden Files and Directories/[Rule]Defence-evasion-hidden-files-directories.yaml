@@ -1,0 +1,17 @@
+apiVersion: Security.accuknox.com/v1
+kind: KubeArmorPolicy
+metadata:
+  name: mitre-tactic-defence-evasion-hidden-files-directories
+spec:
+  selectorLabels:
+      nodeSelector:
+          hostname: xyz
+  process: 
+        matchPaths: 
+        - path: ./
+        matchname:
+        -parameter: ls -a, mkdir
+        
+  action:
+    Audit
+  severity: 2
