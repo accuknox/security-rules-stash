@@ -1,0 +1,21 @@
+apiVersion: security.accuknox.com/v1
+kind: KubeArmorPolicy
+metadata:
+  name: mitre-tactic-Data-Destruction
+  namespace: default
+spec:
+  selectorLabels:
+    nodeSelector:
+      hostname: xyz
+
+  process:
+    matchDirectories:
+      - dir: /bin/
+        recursive: true
+      - dir: /usr/bin/
+        recursive: true
+      - dir: /usr/sbin/
+        recursive: true
+  action:
+    Audit
+  severity: 4

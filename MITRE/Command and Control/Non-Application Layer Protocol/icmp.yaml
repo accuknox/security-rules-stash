@@ -1,0 +1,35 @@
+---
+
+apiVersion: security.accuknox.com/v1
+kind: KubeArmorPolicy
+metadata:
+  name: mitre-tactic-non-application-layer
+  namespace: default
+spec:
+  selectorLabels:
+    nodeSelector:
+      hostname: xyz
+
+  network:
+    matchProtocols:
+      - protocol: ICMP
+      - protocol: ICMPv6
+
+  action:
+      Audit
+  severity: 3
+---
+
+apiVersion: "cilium.io/v2"
+kind: CiliumNetworkPolicy
+metadata:
+  name: "deny-all-egress"
+spec:
+  endpointSelector:
+    matchLabels:
+      role: restricted
+  egress:
+  - {}
+
+---
+
