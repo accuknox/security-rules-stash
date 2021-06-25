@@ -1,0 +1,25 @@
+apiVersion: security.accuknox.com/v1
+kind: KubeArmorPolicy
+metadata:
+  name: collection via utility
+spec:
+  selector:
+    nodeSelectorLabels:
+        key: value
+
+- macro: securefiles
+  condition: >
+    ((proc.cmdline="usermod -a -G sumologic_collector" or
+      proc.cmdline="groupadd sumologic_collector") and
+     (proc.pname=secureFiles.sh and proc.aname[2]=java))
+
+- macro: sosreport_gern
+  condition: >
+    (proc.name=urlgrabber-ext- and proc.aname[3]=sosreport and
+     (fd.name startswith /etc/pkt/nssdb or fd.name startswith /etc/pki/nssdb))
+  process:
+    matchPatterns:
+    - pattern: (/bzip2* | /tar* | /zip*)
+  action:
+    Audit
+  severity: 3
