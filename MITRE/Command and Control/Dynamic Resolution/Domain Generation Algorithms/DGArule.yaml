@@ -1,0 +1,56 @@
+apiVersion: security.accuknox.com/v1
+kind: KubeArmorPolicy
+metadata:
+  name: mitre-tactic-command-control
+spec:
+   selector:
+     nodeSelector:
+       hostname: xyz
+
+
+- macro: outbound 
+ 
+- list: trusted_domains
+    
+  items: [example.com, example.in, example.edu, example.gov]  
+
+- list: trusted_ports
+
+  items: [ ] 
+
+- rule: Unexpected outbound network connection
+
+  desc: Detect outbound connections with destinations not on allowed list
+
+  condition: >
+
+         outbound and not (fd.sip.name in (trusted_domains))
+
+ 
+  output: Unexpected Outbound Connection
+
+            (container=%container.name     
+
+            command=%proc.cmdline
+
+            image=%container.image.repository
+
+            procpname=%proc.pname
+
+            connection=%fd.name
+
+            servername=%fd.sip.name      
+
+            serverip=%fd.sip
+
+            type=%fd.type               
+
+            typechar=%fd.typechar      // matching IPv4 or v6 file descriptor
+
+            fdlocal=%fd.lip            // domain name associated with the local ip address
+
+            fdremote=%fd.rip)          // domain name associated with the remote ip address
+
+  Action:
+           Audit
+  severity: 4
