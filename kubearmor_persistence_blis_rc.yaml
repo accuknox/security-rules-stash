@@ -15,6 +15,5 @@ spec:
       - path: /usr/lib/systemd/system/rc-local.service
       - path: /usr/lib/systemd/system/rc-local.service.d
       - path: /usr/lib/systemd/system/rc.service
-  action:
-    Block
+  action: Block
   severity: 5
