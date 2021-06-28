@@ -1,0 +1,18 @@
+apiVersion: security.accuknox.com/v1
+kind: KubeArmorPolicy
+metadata:
+  name: mitre-tactic-Persistence-Boot or Logon Autostart Execution-Kernel Modules and Extensions
+spec:
+  selectorLabels:
+    nodeSelector:
+      hostname: xyz
+  process:
+    matchPaths:
+      - path: /usr/lib/symantec
+      - path: /usr/sbin/modprobe
+      - path: /usr/sbin/insmod
+      - path: /usr/sbin/modinfo
+      - path: /usr/sbin/lsmod
+      - path: /usr/sbin​/rmmod
+  action: Audit
+  severity: 4
