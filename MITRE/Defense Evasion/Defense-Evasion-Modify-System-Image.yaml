@@ -1,0 +1,18 @@
+apiVersion: security.accuknox.com/v1
+kind: KubeArmorPolicy
+metadata:
+  name: mitre-tactic-defense-evasion-modify-system-image
+spec:
+  selectorLabels:
+    nodeSelector:
+      hostname: xyz
+  file:
+    matchPaths:
+      - path: usr/lib/os-release
+      - path: /etc/lsb-release
+      - path: /etc/network/interfaces
+      - path: /etc/default/tftpd-hpa
+      - path: /etc/vsftpd.conf
+      - path: /etc/sysconfig/network-scripts
+  action: Audit
+  severity: 4
