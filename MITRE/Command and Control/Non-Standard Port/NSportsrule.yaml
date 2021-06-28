@@ -1,0 +1,17 @@
+apiVersion: security.accuknox.com/v1
+kind: KubeArmorPolicy
+metadata:
+  name: "mitre-tactic-command-control-NSPorts"
+spec:
+  endpointSelector:
+    matchLabels:
+      role: backend     //enables all endpoints with different labels will  communicate only on port 80
+  ingress:
+  - fromEndpoints:
+    - matchLabels:
+        role: frontend
+    toPorts:
+    - ports:
+      - port: "80"
+        protocol: TCP
+       
