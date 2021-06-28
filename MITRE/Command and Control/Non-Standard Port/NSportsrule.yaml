@@ -14,4 +14,6 @@ spec:
     - ports:
       - port: "80"
         protocol: TCP
-       
+  action:
+      Audit  
+  severity: 3       
