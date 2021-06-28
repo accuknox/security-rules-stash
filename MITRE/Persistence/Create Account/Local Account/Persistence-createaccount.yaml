@@ -1,3 +1,4 @@
+apiVersion: security.accuknox.com/v1
 kind: KubeArmorPolicy
 metadata:
   name: mitre-tactic-persistence-createaccount-localaccount
