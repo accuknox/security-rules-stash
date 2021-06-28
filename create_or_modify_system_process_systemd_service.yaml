@@ -1,0 +1,15 @@
+apiVersion: security.accuknox.com/v1
+kind: KubeArmorPolicy
+metadata:
+  name: create-or-modify-system-process-systemd-service
+spec:
+  selectorLables:
+    nodeSelector:
+      hostname: xyz
+  process:
+    matchPaths:
+      - path: /etc/systemd/system
+      - path: /usr/lib/systemd/system/
+      - path: /home//.config/systemd/user/
+  action: Audit
+  severity: 4
