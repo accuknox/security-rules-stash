@@ -1,0 +1,30 @@
+apiVersion: security.accuknox.com/v1
+kind: KubeArmorPolicy
+metadata:
+  name: discovery-account-discovery-local-account
+spec:
+  severity: 3
+  selector:
+    nodeselector:
+      hostname: xyz
+  process:
+    matchPaths:
+      - path: /usr/bin/id
+        fromSource:
+          - path: /root/
+        action: Allow
+      - path: /usr/bin/groups
+        fromSource:
+          - path: /root/
+        action: Allow
+      - path: /usr/bin/net
+        fromSource:
+          - path: /root/
+        action: Allow
+      - path: /usr/bin/id
+        action: AllowwithAudit
+      - path: /usr/bin/groups
+        action: AllowwithAudit
+      - path: /usr/bin/net
+        action: AllowwithAudit
+        
