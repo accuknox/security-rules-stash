@@ -1,0 +1,18 @@
+apiVersion: security.accuknox.com/v1
+kind: KubeArmorPolicy
+metadata:
+  name: discovery-process-discovery
+spec:
+  severity: 2
+  selector:
+    nodeselector:
+      hostname: xyz
+  process:
+    matchPaths:
+      - path: /usr/bin/ps
+      - path: /usr/bin/pgrep
+      - path: /usr/bin/top
+      - path: /usr/bin/htop
+  action: Audit
+      
+        
