@@ -1,0 +1,20 @@
+apiVersion: security.accuknox.com/v1
+kind: KubeArmorPolicy
+metadata:
+  name: mitre-tactic-presistence-kernel-modules
+  namespace: multiubuntu
+  
+spec:
+  tags: ["MITRE", "Persistence"]
+  selector:
+      matchLabels:
+        container: ubuntu-4 
+  process:
+    matchPaths: 
+    - path: /usr/sbin/insmod
+    - path: /usr/sbin/modprobe   
+    - path: /usr/sbin/rmmod   
+
+  action:
+    Audit
+  severity: 5
