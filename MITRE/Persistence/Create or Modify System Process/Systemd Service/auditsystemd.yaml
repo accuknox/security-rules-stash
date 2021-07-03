@@ -1,0 +1,20 @@
+---
+apiVersion: security.accuknox.com/v1
+kind: KubeArmorPolicy
+metadata:
+  name: mitre-tactic-persistence-systemd
+spec:
+  selectorLabels:
+    nodeSelector:
+      hostname: xyz
+  file:
+    matchPaths:
+      - path: /etc/systemd/system
+      - path: /etc/systemd/system/usr/lib/systemd/system
+      - path: /lib/systemd/system
+        readOnly: true
+    matchPatterns:
+      - pattern: "*/.config/systemd/user"
+        ownerOnly: true
+  action: Audit
+  severity: 1
