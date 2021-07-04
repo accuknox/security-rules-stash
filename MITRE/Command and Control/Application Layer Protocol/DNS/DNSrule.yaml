@@ -1,34 +1,29 @@
-apiVersion: security.accuknox.com/v1
-kind: KubeArmorPolicy
+apiVersion: v1
+kind: KnoxNetworkPolicy
 metadata:
-  name: "tofqdn-dns-visibility"
+  name: dns
+  namespace: multiubuntu
 spec:
-  selectorLabels:
-   nodeSelector:
-    hostname: xyz
-
-  file:
-       matchPaths:
-        - path: /var/log    //Syslog daemon which listens on  domain sockets on linux
-        - path: /var/log/auth.log    //File-based logging, a typical example being on linux
-        - path: /etc/resolv.conf     //      
-       dns:
-            - matchName: "example.com"
-            - matchPattern: "*.example.com"
-            - matchPattern: "*.api.example.com"
-            - toFQDNs:
-              - matchName: "example.com"
-              - matchName: "sub.example.com"
-              - matchName: "service1.api.example.com"
-              - matchPattern: "special*service.api.example.com"
-       toPorts:
-           - ports:
-           - port: "80"
-             protocol: TCP
-           - ports:
-           - port: "53"
-             protocol: ANY
-        
-  action:
-      Audit  
-  severity: 3                              
+  severity: 5
+  message: "dns whitelist"
+  selector:
+    matchLabels:
+      container: ubuntu-5
+  egress:
+  - toFQDNs:
+    - matchPattern: "*.twitter.com" 
+    toPorts:
+    - ports:
+      - port: "443"
+        protocol: TCP 
+  
+    - matchLabels:
+        "k8s:io.kubernetes.pod.namespace": kube-system
+        "k8s:k8s-app": kube-dns
+    toPorts:
+    - ports:
+      - port: "53"
+        protocol: ANY
+      rules:
+        dns:
+        - matchPattern: "*"    
