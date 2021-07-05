@@ -12,9 +12,9 @@ spec:
     - matchLabels:
         role: frontend
     toPorts:
-    - ports:
-      - port: "80"
-        protocol: TCP
+     - ports:
+       - port: "80"
+         protocol: TCP
   action:
       Audit  
   severity: 3       
