@@ -1,0 +1,20 @@
+apiVersion: v1
+kind: KnoxNetworkPolicy
+metadata:
+  name: "mitre-tactic-command-control-NSPorts"
+  namespace: multiubuntu
+spec:
+   selector:
+       matchLabels:
+         container: ubuntu-5
+          role: backend     //enables all endpoints with different labels will  communicate only on port 80
+  ingress:
+    - matchLabels:
+        role: frontend
+    toPorts:
+     - ports:
+       - port: "80"
+         protocol: TCP
+  action:
+      Audit  
+  severity: 3       
