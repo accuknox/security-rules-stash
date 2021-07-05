@@ -1,14 +1,12 @@
-apiVersion: v1
-kind: KnoxNetworkPolicy
+apiVersion: "cilium.io/v2"
+kind: CiliumNetworkPolicy
 metadata:
-  name: dns
-  namespace: multiubuntu
+  name: "dns"
 spec:
-  severity: 5
-  message: "dns whitelist"
-  selector:
+  endpointSelector:
     matchLabels:
-      container: ubuntu-5
+      org: UK
+      class: testpod
   egress:
   - toFQDNs:
     - matchPattern: "*.twitter.com" 
@@ -16,7 +14,7 @@ spec:
     - ports:
       - port: "443"
         protocol: TCP 
-  
+  - toEndpoints:
     - matchLabels:
         "k8s:io.kubernetes.pod.namespace": kube-system
         "k8s:k8s-app": kube-dns
@@ -26,4 +24,4 @@ spec:
         protocol: ANY
       rules:
         dns:
-        - matchPattern: "*"    
+        - matchPattern: "*"  
