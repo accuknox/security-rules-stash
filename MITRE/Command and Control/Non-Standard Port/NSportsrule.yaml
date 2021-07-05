@@ -2,12 +2,13 @@ apiVersion: security.accuknox.com/v1
 kind: KubeArmorPolicy
 metadata:
   name: "mitre-tactic-command-control-NSPorts"
+  namespace: multiubuntu
 spec:
-  endpointSelector:
-    matchLabels:
-      role: backend     //enables all endpoints with different labels will  communicate only on port 80
+   selector:
+       matchLabels:
+         container: ubuntu-5
+          role: backend     //enables all endpoints with different labels will  communicate only on port 80
   ingress:
-  - fromEndpoints:
     - matchLabels:
         role: frontend
     toPorts:
