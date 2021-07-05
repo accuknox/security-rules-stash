@@ -3,10 +3,7 @@ kind: KubeArmorPolicy
 metadata:
   name: "tofqdn-dns-visibility"
 spec:
-  selectorLabels:
-   nodeSelector:
-    hostname: xyz
-
+ 
   file:
        matchPaths:
         - path: /var/log    //Syslog daemon which listens on  domain sockets on linux
