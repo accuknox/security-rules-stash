@@ -1,5 +1,5 @@
-apiVersion: security.accuknox.com/v1
-kind: KubeArmorPolicy
+apiVersion: "cilium.io/v2"
+kind: CiliumNetworkPolicy
 metadata:
   name: "mitre-tactic-command-control-NSPorts"
 spec:
@@ -14,6 +14,4 @@ spec:
     - ports:
       - port: "80"
         protocol: TCP
-  action:
-      Audit  
-  severity: 3       
+       
