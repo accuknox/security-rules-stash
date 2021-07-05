@@ -1,17 +1,21 @@
-apiVersion: security.accuknox.com/v1
-kind: KubeArmorPolicy
+apiVersion: v1
+kind: KnoxNetworkPolicy
 metadata:
   name: "mitre-tactic-command-control-webprotocol"
+  namespace: multiubuntu
 spec:
-  endpointSelector:
     matchLabels:
-      app: myService     // app label limits all endpoints which carry the labels app=myService
-  ingress:
-  - toPorts:
-    - ports:
-      - port: '80'      
-        protocol: TCP     // the communication will be done by using TCP on port 80 // only APIs endpoints allowed will be GET and PUT with header K
-      rules:                 
+     severity: 5
+     message: "block files following a pattern"
+     selector:
+       matchLabels:
+         container: ubuntu-5
+    ingress:        
+    - toPorts:
+      - ports:
+        - port: '80'      
+          protocol: TCP     // the communication will be done by using TCP on port 80 // only APIs endpoints allowed will be GET and PUT with header K
+        rules:                 
         http:
         - method: GET
           path: "/path1$"    
@@ -20,6 +24,6 @@ spec:
           headers:
           - 'K-My-Header: true'
       
-  action:
+    action:
       Block  
-  severity: 3         
+    severity: 3         
