@@ -1,0 +1,20 @@
+apiVersion: security.accuknox.com/v1
+kind: KubeArmorPolicy
+metadata:
+  name: mitre-tactic-privilege-escalation
+  namespace: multiubuntu
+spec:
+  tags: ["MITRE"]
+  message: "process injection -- proc mem"
+  selector:
+    matchLabels:
+      container: ubuntu-1
+file:
+    matchPaths:
+    - path: /proc/*/mem
+      readOnly: true
+    - path: /proc/*/maps
+      readOnly: true
+action:
+  BlockWithAudit
+severity: 6
