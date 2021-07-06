@@ -1,0 +1,29 @@
+apiVersion: security.accuknox.com/v1
+kind: KubeArmorPolicy
+metadata:
+  name: mitre-tactic-persistence
+spec:
+  selector:
+      matchLabels:
+          container: ubuntu-1 
+  process:
+    matchPaths:
+    - path: /usr/bin/nano
+      onFiles:
+      - path: ~/.bashrc
+      - path: ~/.bash_profile	
+      - path: /etc/profile
+    - path: /usr/bin/vi
+      onFiles:
+      - path: ~/.bashrc
+      - path: ~/.bash_profile	
+      - path: /etc/profile
+    - path: /usr/bin/echo
+      onFiles:
+      - path: ~/.bashrc
+      - path: ~/.bash_profile	
+      - path: /etc/profile
+  
+  severity: 6
+  action:
+    Audit
