@@ -1,0 +1,16 @@
+apiVersion: security.accuknox.com/v1
+kind: KubeArmorPolicy
+metadata:
+  name: mitre-tactic-defense-evasion
+spec:
+  selector:
+      matchLabels:
+          container: ubuntu-3
+  process: 
+        matchPaths: 
+        - path: /usr/bin/chown
+        matchPaths: 
+        - path: /usr/bin/chmod          
+  action:
+    Audit
+  severity: 3
