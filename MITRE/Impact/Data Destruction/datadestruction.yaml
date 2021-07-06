@@ -1,0 +1,27 @@
+apiVersion: security.accuknox.com/v1
+kind: KubeArmorPolicy
+metadata:
+  name: mitre-tactic-data-destruction
+  namespace: multiubuntu
+spec:
+  tags: ["MITRE"]
+  message: "data destruction"
+  selector:
+    matchLabels:
+      container: ubuntu-1
+  process:
+   matchPaths:
+   - path: /bin/rm
+   - path: /bin/rmdir
+   - path: /usr/bin/dd
+  file:
+   matchDirectories: 
+  - dir: /bin/
+    recursive: true
+  - dir: /usr/
+    recursive: true
+  - dir: /etc/
+    recursive: true
+
+  action:
+    BlockWithAudit
