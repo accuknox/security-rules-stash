@@ -1,0 +1,24 @@
+apiVersion: security.accuknox.com/v1
+kind: KubeArmorPolicy
+metadata:
+  name: mitre-tactic-credential-access
+spec:
+  selector:
+      matchLabels:
+          container: ubuntu-2
+  process: 
+        matchPaths: 
+        - path: /bin/cat
+          onDirectory: 
+          - path: ~/.ssh/
+          - path: ~/.gnupg/
+          - path: /usr/local/share/ca-certificate/
+        matchPaths: 
+        - path: /bin/cp
+          onDirectory: 
+          - path: ~/.ssh/
+          - path: ~/.gnupg/
+          - path: /usr/local/share/ca-certificate/          
+  action:
+    Block
+  severity: 5

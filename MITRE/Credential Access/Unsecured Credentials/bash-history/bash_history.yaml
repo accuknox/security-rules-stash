@@ -1,0 +1,20 @@
+apiVersion: security.accuknox.com/v1
+kind: KubeArmorPolicy
+metadata:
+  name: mitre-tactic-credential-access
+spec:
+  selector:
+      matchLabels:
+          container: ubuntu-1
+  process: 
+        matchPaths: 
+        - path: /bin/grep
+          onDirectory: 
+          - path: ~/.bash_history
+        matchPaths: 
+        - path: /bin/cat
+          onDirectory: 
+          - path: ~/.bash_history  
+  action:
+    Block
+  severity: 5
