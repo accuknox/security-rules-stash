@@ -2,14 +2,18 @@ apiVersion: security.accuknox.com/v1
 kind: KubeArmorPolicy
 metadata:
   name: mitre-tactic-persistence-createaccount-localaccount
+  namespace: multiubuntu
 spec:
-  selectorLabels:
-      nodeSelector:
-          hostname: xyz
-  process: 
-        matchPaths: 
-        - path: /usr/sbin/useradd
-        - path: /usr/sbin/adduser.conf
-  action:
-    Audit
-  severity: 2
+  severity: 4
+  selector:
+    matchLabels:
+      container: ubuntu-1
+  process:
+    matchPaths:
+      - path: /usr/sbin/useradd
+  file:
+    matchPaths:
+      - path: /etc/passwd
+      - path: /etc/shadow
+  action: 
+     Block
