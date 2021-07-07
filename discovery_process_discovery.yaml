@@ -2,17 +2,21 @@ apiVersion: security.accuknox.com/v1
 kind: KubeArmorPolicy
 metadata:
   name: discovery-process-discovery
+  namespace: testns  #change the namespace with your namespace
 spec:
   severity: 2
   selector:
-    nodeselector:
-      hostname: xyz
+    matchLabels:
+      container: ubuntu-1  #change the labels with your lables
   process:
     matchPaths:
+      - path: /bin/ps
+      - path: /lib/systemd/system/rc-local.service
       - path: /usr/bin/ps
       - path: /usr/bin/pgrep
       - path: /usr/bin/top
       - path: /usr/bin/htop
-  action: Audit
+  action: 
+    Audit
       
         
