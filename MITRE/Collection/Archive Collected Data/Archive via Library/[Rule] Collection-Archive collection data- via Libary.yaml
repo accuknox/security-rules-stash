@@ -1,0 +1,28 @@
+apiVersion: security.accuknox.com/v1
+kind: KubeArmorPolicy
+metadata:
+  name: collection via libary 
+  namespace: multiubuntu
+spec:
+  severity: 5
+  selector:
+    matchLabels:
+      container: ubuntu-1
+      
+ matchPaths:
+      - path: /boot
+      - path: /lib
+      - path: /lib64
+      - path: /usr/lib
+      - path: /usr/local/lib
+      - path: /usr/local/sbin
+      - path: /usr/local/bin
+      - path: /root/.ssh
+      - path: /etc/cardserver
+
+process:
+    matchPatterns:
+    - pattern: (ps_name != listofbins) && ps_linkedso == (libbz2.* || libz.*) 
+  action:
+    Audit
+ 

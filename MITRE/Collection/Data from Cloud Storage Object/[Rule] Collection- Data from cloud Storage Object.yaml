@@ -1,0 +1,35 @@
+apiVersion: security.accuknox.com/v1
+kind: KubeArmorPolicy
+metadata:
+  name: mitre-tactic-collection-data-from-cloud-storage-object
+spec:
+  selectorLabels:
+      nodeSelector:
+          hostname: xyz
+
+- list: k8s_binaries
+  items: [hyperkube, skydns, kube2sky, exechealthz, weave-net, loopback, bridge, openshift-sdn, openshift]
+
+- rule: to project accuknox data-protection on k8s
+  decs: it should be over the cloud 
+
+- macro: run_by_cdp  //policyengine
+  condition: >
+    (proc.pname=qualys-cloud-ag or
+     proc.aname[2]=qualys-cloud-ag or
+     proc.aname[3]=qualys-cloud-ag or
+     proc.aname[4]=qualys-cloud-ag)
+
+- macro: cloud_init_writing_ssh
+  condition: (proc.name=cloud-init and user_ssh_directory)
+
+- macro: monitored_dir
+  condition: >
+    (fd.directory in (monitored_directories)
+     or user_ssh_directory)
+    and not mkinitramfs_writing_boot
+  priorityClassName: high-priority
+
+ action:
+    Aduit
+  severity: 5
