@@ -1,31 +1,27 @@
-apiVersion: security.accuknox.com/v1
-kind: KubeArmorPolicy
+apiVersion: "cilium.io/v2"
+kind: CiliumNetworkPolicy
 metadata:
-  name: "tofqdn-dns-visibility"
+  name: "fqdns"
 spec:
- 
-  file:
-       matchPaths:
-        - path: /var/log    //Syslog daemon which listens on  domain sockets on linux
-        - path: /var/log/auth.log    //File-based logging, a typical example being on linux
-        - path: /etc/resolv.conf     //      
-       dns:
-            - matchName: "example.com"
-            - matchPattern: "*.example.com"
-            - matchPattern: "*.api.example.com"
-            - toFQDNs:
-              - matchName: "example.com"
-              - matchName: "sub.example.com"
-              - matchName: "service1.api.example.com"
-              - matchPattern: "special*service.api.example.com"
-       toPorts:
-           - ports:
-           - port: "80"
-             protocol: TCP
-           - ports:
-           - port: "53"
-             protocol: ANY
-        
-  action:
-      Audit  
-  severity: 3                              
+  endpointSelector:
+    matchLabels:
+      org: UK
+      class: testpod
+  egress:
+  - toFQDNs:
+    - matchPattern: "*.twitter.com" 
+    toPorts:
+    - ports:
+      - port: "443"
+        protocol: TCP 
+  - toEndpoints:
+    - matchLabels:
+        "k8s:io.kubernetes.pod.namespace": kube-system
+        "k8s:k8s-app": kube-dns
+    toPorts:
+    - ports:
+      - port: "53"
+        protocol: ANY
+      rules:
+        dns:
+        - matchPattern: "*" 
