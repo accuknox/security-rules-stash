@@ -1,0 +1,18 @@
+apiVersion: security.kubearmor.com/v1
+kind: KubeArmorPolicy
+metadata:
+  name: mitre-tactic-defence-evasion-timestomp
+  namespace: multiubuntu
+spec:
+  tags: ["MITRE", "defence Evasion"]
+  severity: 4
+  selector:
+      matchLabels:
+          group: group-2
+  process:
+    matchPaths: 
+    - path: /bin/touch
+    - path: /usr/bin/touch
+  action:
+    Audit
+  
