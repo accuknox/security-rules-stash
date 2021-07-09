@@ -1,0 +1,18 @@
+apiVersion: security.accuknox.com/v1
+kind: KubeArmorPolicy
+metadata:
+  name: defense-evasion
+  namespace: multiubuntu
+spec:
+  severity: 5
+  selector:
+    matchLabels:
+      container: ubuntu-1
+  file:
+    matchPaths:
+      - path: /etc/lsb-release       # lsb-release permission denied
+      - path: /etc/hostname
+      - path: /etc/hosts
+      - path: /etc/hosts.allow
+      - path: /etc/networks
+  action: Block
