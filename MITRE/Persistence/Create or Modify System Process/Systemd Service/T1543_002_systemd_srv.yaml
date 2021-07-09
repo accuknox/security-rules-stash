@@ -1,0 +1,25 @@
+apiVersion: security.accuknox.com/v1
+kind: KubeArmorPolicy
+metadata:
+  name: mitre-tactic-presistence-systemd-services
+  namespace: multiubuntu
+spec:
+  tags: ["MITRE", "Persistence"]
+  selector:
+    matchLabels:
+        container: ubuntu-5
+  file: 
+    matchDirectories:
+    - dir: /etc/systemd/system/
+      recursive: true
+      readOnly: true
+    - dir: /usr/lib/systemd/system/
+      recursive: true
+      readOnly: true
+    - dir: /.config/systemd/user/
+      recursive: true
+      readOnly: true
+        
+  action:
+    Audit
+  severity: 5 
