@@ -16,4 +16,4 @@ spec:
       - path: /etc/shadow
       - path: /etc/passwd
   action: 
-    Block
+    Audit
