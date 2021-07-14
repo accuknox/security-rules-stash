@@ -1,0 +1,19 @@
+apiVersion: security.kubearmor.com/v1
+kind: KubeArmorPolicy
+metadata:
+  name: mitre-tactic-persistence-createaccount-localaccount
+  namespace: multiubuntu
+spec:
+  severity: 4
+  selector:
+    matchLabels:
+      container: ubuntu-1
+  process:
+    matchPaths:
+      - path: /usr/sbin/useradd
+  file:
+    matchPaths:
+      - path: /etc/shadow
+      - path: /etc/passwd
+  action: 
+    Audit
