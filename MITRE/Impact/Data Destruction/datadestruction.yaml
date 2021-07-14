@@ -1,0 +1,28 @@
+apiVersion: security.kubearmor.com/v1
+kind: KubeArmorPolicy
+metadata:
+  name: mitre-tactic-impact-data-destruction
+  namespace: multiubuntu
+spec:
+  tags: ["MITRE"]
+  message: impact-data-destruction
+  selector:
+      matchLabels:
+          container: ubuntu-1
+  process:
+    matchPaths: 
+    - path: /bin/rm
+    - path: /bin/rmdir
+  file:
+    matchDirectories:
+    -dir: usr/bin/*
+     recursive: true
+    -dir: usr/sbin/*
+     recursive: true
+    -dir: /bin/*
+     recursive: true 
+    -dir: /etc/*
+     recursive: true
+  action:
+    Audit
+  severity: 4
