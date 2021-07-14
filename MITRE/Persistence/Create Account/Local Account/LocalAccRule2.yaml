@@ -1,0 +1,21 @@
+apiVersion: security.kubearmor.com/v1
+kind: KubeArmorPolicy
+metadata:
+  name: mitre-tactic-persistence-local-acc-net
+  namespace: multiubuntu
+spec:
+  tags: ["MITRE"]
+  message: "local account creation -- net"
+  selector:
+    matchLabels:
+      container: ubuntu-1
+  process:
+    matchPaths:
+    - path: /usr/bin/net
+  file:
+    matchPaths:
+    - path: /etc/passwd
+    - path: /etc/shadow
+  severity: 6
+  action:
+    BlockWithAudit
