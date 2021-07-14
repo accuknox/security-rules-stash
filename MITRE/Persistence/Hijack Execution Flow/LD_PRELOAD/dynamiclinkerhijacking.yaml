@@ -1,0 +1,18 @@
+apiVersion: security.kubearmor.com/v1
+kind: KubeArmorPolicy
+metadata:
+  name: mitre-tactic-persistence-dynamic-linker-hijacking
+spec:
+  selectorLabels:
+      nodeSelector:
+          hostname: xyz
+  file:
+    matchPaths: 
+    - path: /proc/<pid>/environ
+    - path: /etc/ld.so.preload
+    condition:
+    - process: LD_PRELOAD
+    
+  action:
+    Audit
+  severity: 4
