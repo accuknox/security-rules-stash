@@ -1,0 +1,17 @@
+apiVersion: security.kubearmor.com/v1
+kind: KubeArmorPolicy
+metadata:
+  name: mitre-tactic-privilege-escalation
+  namespace: multiubuntu
+spec:
+  tags: ["MITRE","PRIVILEGE ESCALATION","PROCESS INJECTION"]
+  message: "Process Injection using PtraceSystem call"
+  selector:
+    matchLabels:
+      container: ubuntu-1
+capabilities:
+    matchCapabilities:
+    - capability: sys_ptrace
+action:
+  BlockWithAudit
+severity: 6
