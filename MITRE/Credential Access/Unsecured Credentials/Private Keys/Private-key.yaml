@@ -1,0 +1,20 @@
+apiVersion: Security.accuknox.com/v1
+kind: KubeArmorPolicy
+Metadata: 
+ name: mitre-tactic-credential-access-private-keys
+ namespace: testns
+spec:
+  severity: 3
+  selector:
+    matchLabels:
+      container: ubuntu-1  #use your labels name here
+  process:
+    matchPaths:
+      - path:  /etc/passwd
+      - path:  /etc/shadow
+      - path:  /usr/bin/unshadow
+      - path:  /tmp/crack.password.db
+   
+  action:
+      Audit  
+     
