@@ -1,0 +1,15 @@
+apiVersion: security.kubearmor.com/v1
+kind: KubeArmorHostPolicy
+metadata:
+  name: validate-containerd-sock-mount
+spec:
+  severity: 5
+  message: "Use of the Containerd Unix socket is not allowed."
+  nodeSelector:
+    matchLabels:
+      kubernetes.io/hostname: ubuntu20
+  file:
+    matchPaths:
+    - path: /var/run/containerd.sock
+  action:
+    Audit

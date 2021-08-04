@@ -1,0 +1,15 @@
+apiVersion: security.kubearmor.com/v1
+kind: KubeArmorHostPolicy
+metadata:
+  name: validate-crio-sock-mount
+spec:
+  severity: 5
+  message: "Use of the CRI-O Unix socket is not allowed.."
+  nodeSelector:
+    matchLabels:
+      kubernetes.io/hostname: ubuntu20
+  file:
+    matchPaths:
+    - path: /var/run/crio.sock
+  action:
+    Audit
